@@ -3,9 +3,9 @@
 ## QQ技术交流群484751030
 ![QQ技术交流群484751030](./static/baiyajin.png)
 ## 支持下这个项目吧
-![支付宝](./static/zfb.jpg)
-![QQ](./static/qq.png)
-![微信](./static/wx.png)
+![支付宝](./static/zfb10.png)
+![QQ](./static/qq10.png)
+![微信](./static/wx10.png)
 ## Build Setup
 ``` bash
 # install dependencies
