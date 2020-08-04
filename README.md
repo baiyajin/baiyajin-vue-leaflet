@@ -1,11 +1,11 @@
 # baiyajin-vue-leaflet
 > baiyajin-vue-leaflet项目，可双击地图添加标记，点击标记弹出菜单，点击菜单弹出遮罩并跳转到指定的地图。
 ## QQ技术交流群484751030
-![Image text](./static/baiyajin.png)
+![QQ技术交流群484751030](https://github.com/baiyajin/baiyajin-vue-leaflet/blob/master/static/baiyajin.png)
 ## 此项目对你有帮助，支持下吧
-![支付宝](./static/zfb.jpg)
-![QQ](./static/qq.png)
-![微信](./static/wx.png)
+![支付宝](https://github.com/baiyajin/baiyajin-vue-leaflet/blob/master/static/zfb.jpg)
+![QQ](https://github.com/baiyajin/baiyajin-vue-leaflet/blob/master/static/qq.png)
+![微信](https://github.com/baiyajin/baiyajin-vue-leaflet/blob/master/static/wx.png)
 ## Build Setup
 ``` bash
 # install dependencies
