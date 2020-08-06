@@ -7,7 +7,8 @@
       </l-marker>
     </l-map>
 
-    <el-dialog
+    <!--没有全局覆盖-->
+    <!--<el-dialog
       :title="map.title"
       :close-on-click-modal="false"
       :visible.sync="dialogVisible"
@@ -27,7 +28,15 @@
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
-    </el-dialog>
+    </el-dialog>-->
+
+    <!--全局覆盖-->
+    <l-map class="l-map child_map_div" v-if="dialogVisible" :zoom="map.zoom" :center="map.center" ref="child_map">
+      <l-tile-layer :url="map.url" :attribution="map.attribution"></l-tile-layer>
+      <l-marker :lat-lng="map.marker">
+        <l-popup :content="map.text"></l-popup>
+      </l-marker>
+    </l-map>
   </div>
 </template>
 
@@ -51,9 +60,11 @@ export default {
       dialogVisible: false,
       map: {
         title: '',
-        zoom: 13,
+        zoom: 1,
         center: '',
-        url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+        // url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+        // url: 'http://192.168.1.115/tiles/tiles/{z}/{x}/{y}.png',
+        url: '',
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         marker: '',
         text: ''
@@ -62,6 +73,7 @@ export default {
         zoom: 13,
         center: L.latLng(25.085540595994082, 102.73151814937593),
         url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+        // url: 'http://192.168.1.115/tiles/tiles/{z}/{x}/{y}.png',
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         markers: []
       }
@@ -87,6 +99,7 @@ export default {
         self.buttons[i].onclick = function () {
           self.setMapParams(i)
           self.dialogVisible = true
+          self.addReturnButton()
         }
       }
     })
@@ -98,21 +111,16 @@ export default {
         text: `<div class="title">子地图列表</div>` +
           `<br><button class="my-custom-button">地图一</button>` +
           `<br><button class="my-custom-button">地图二</button>` +
-          `<br><button class="my-custom-button">地图三</button>` +
-          `<br><button class="my-custom-button">地图四</button>` +
-          `<br><button class="my-custom-button">地图五</button>` +
-          `<br><button class="my-custom-button">地图六</button>`
+          `<br><button class="my-custom-button">地图三</button>`
       }
     },
     setMapParams (index) {
-      console.log(this.currentCenter.lat)
-      console.log(this.currentCenter.lng)
       this.currentIndex = index
       this.map.center = this.currentCenter
       this.map.marker = this.currentMarker
-      this.map.zoom = index + 13
       this.map.text = `<div class="title">我是 ${this.buttons[index].innerHTML}</div>`
-      this.map.title = `${this.buttons[index].innerHTML} ------- 缩放(${this.map.zoom}) ------- 位置(${this.map.marker})`
+      this.map.title = `${this.buttons[index].innerHTML}`
+      this.map.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
     },
     switchMap (flag) {
       // 计算当前index
@@ -130,6 +138,25 @@ export default {
         }
       }
       this.setMapParams(this.currentIndex)
+    },
+    addReturnButton () {
+      let self = this
+      let mycustombutton = document.getElementById('mycustombutton')
+      if (!mycustombutton) {
+        let allElements = document.getElementsByClassName('leaflet-control-zoom leaflet-bar leaflet-control')
+        let a = document.createElement('a')
+        a.setAttribute('class', 'leaflet-control-zoom-out')
+        a.setAttribute('id', 'mycustombutton')
+        a.setAttribute('title', '返回')
+        a.setAttribute('role', 'button')
+        a.setAttribute('aria-label', '返回')
+        a.innerHTML = '«'
+        a.onclick = function () {
+          self.dialogVisible = false
+          document.getElementById('mycustombutton').remove()
+        }
+        allElements[allElements.length - 1].appendChild(a)
+      }
     }
   }
 }
@@ -146,6 +173,10 @@ export default {
       width: 100%;
       height: 100%;
       position:absolute;
+    }
+    .child_map_div{
+      z-index: 999;
+      background: white;
     }
     /deep/.leaflet-popup-content{
       width: 100% !important;
