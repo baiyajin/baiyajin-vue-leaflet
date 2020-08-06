@@ -25,9 +25,10 @@ export default {
   data () {
     return {
       menuList: [
-        {name: 'DEMO1', path: '/VueLeaflet', id: 1},
-        {name: 'DEMO2', path: '/VueLeaflet2', id: 2},
-        {name: 'DEMO3', path: '/VueLeaflet3', id: 3}
+        {name: 'DEMO1', path: '/VueLeaflet', id: 1}, // 双击添加标记，点击标记显示默认6个地图
+        {name: 'DEMO2', path: '/VueLeaflet2', id: 2}, // 双击添加标记，点击标记没有地图
+        {name: 'DEMO3', path: '/VueLeaflet3', id: 3}, // 双击添加标记，点击标记显示默认3个地图，地图是从后台接口获取的，再点击地图会遮住原来地图
+        {name: 'DEMO4', path: '/VueLeaflet4', id: 4} // 双击添加标记，点击标记显示默认3个地图，再点击地图会覆盖掉原来的地图
       ]
     }
   },
