@@ -1,7 +1,7 @@
 <template>
   <div class="vue-leaflet">
-    <l-map class="l-map" :zoom="map2.zoom" :center="map2.center" ref="map">
-      <l-tile-layer :url="map2.url" :attribution="map2.attribution"></l-tile-layer>
+    <l-map class="l-map" :zoom="map2.zoom" ref="map" :zoomControl="zoomControl" :attributionControl="attributionControl">
+      <l-tile-layer :url="map2.url"></l-tile-layer>
       <l-marker v-for="(item, index) in map2.markers" :key="index" :lat-lng="item.marker">
         <l-popup :content="item.text"></l-popup>
       </l-marker>
@@ -29,11 +29,10 @@ export default {
       currentCenter: '',
       originalMap: {},
       map2: {
-        zoom: 13,
-        center: L.latLng(25.085540595994082, 102.73151814937593),
-        url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-        // url: 'http://192.168.1.115/tiles/tiles/{z}/{x}/{y}.png',
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        zoomControl: false,
+        attributionControl: false,
+        zoom: 1,
+        url: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
         markers: []
       }
     }
@@ -72,9 +71,9 @@ export default {
       return {
         marker: marker,
         text: `<div class="title">子地图列表</div>` +
-          `<br><button class="my-custom-button">地图一</button>` +
-          `<br><button class="my-custom-button">地图二</button>` +
-          `<br><button class="my-custom-button">地图三</button>`
+            `<br><button class="my-custom-button">地图一</button>` +
+            `<br><button class="my-custom-button">地图二</button>` +
+            `<br><button class="my-custom-button">地图三</button>`
       }
     },
     setMapParams (index) {
