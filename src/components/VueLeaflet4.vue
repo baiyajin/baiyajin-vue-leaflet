@@ -50,6 +50,7 @@ export default {
       // 双击才添加
       self.map2.markers.push(self.getJson(L.latLng(e.latlng.lat, e.latlng.lng)))
     })
+    // 点击标记
     self.$refs.map.mapObject.on('popupopen', function (e) {
       self.currentCenter = self.currentMarker = L.latLng(e.popup._latlng.lat, e.popup._latlng.lng)
       self.buttons = e.popup._contentNode.getElementsByClassName('my-custom-button')
@@ -77,26 +78,29 @@ export default {
       this.currentIndex = index
       this.map2.zoom = 1
       this.map2.center = this.currentCenter
-      this.map2.marker = [this.currentMarker]
+      this.map2.markers = [{
+        marker: this.currentMarker,
+        text: `<div class="title">${index + 1} 楼地图</div>`
+      }]
       this.map2.text = `<div class="title">我是 ${this.buttons[index].innerHTML}</div>`
       this.map2.title = `${this.buttons[index].innerHTML}`
       this.map2.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
     },
     addReturnButton () {
       let self = this
-      let mycustombutton = document.getElementById('mycustombutton')
-      if (!mycustombutton) {
+      let myCustomButton = document.getElementById('myCustomButton')
+      if (!myCustomButton) {
         let allElements = document.getElementsByClassName('leaflet-control-zoom leaflet-bar leaflet-control')
         let a = document.createElement('a')
         a.setAttribute('class', 'leaflet-control-zoom-out')
-        a.setAttribute('id', 'mycustombutton')
+        a.setAttribute('id', 'myCustomButton')
         a.setAttribute('title', '返回')
         a.setAttribute('role', 'button')
         a.setAttribute('aria-label', '返回')
         a.innerHTML = '«'
         a.onclick = function () {
           self.map2 = JSON.parse(JSON.stringify(self.originalMap))
-          document.getElementById('mycustombutton').remove()
+          document.getElementById('myCustomButton').remove()
         }
         allElements[allElements.length - 1].appendChild(a)
       }
