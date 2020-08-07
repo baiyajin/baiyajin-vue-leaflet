@@ -25,6 +25,7 @@ export default {
       buttons: [],
       currentIndex: 0,
       currentMarker: '',
+      currentMarkerElement: null,
       currentCenter: '',
       originalMap: {},
       map2: {
@@ -52,6 +53,8 @@ export default {
     })
     // 点击标记
     self.$refs.map.mapObject.on('popupopen', function (e) {
+      // 获取当前mark标记元素
+      self.currentMarkerElement = e.sourceTarget._panes.markerPane.firstChild
       self.currentCenter = self.currentMarker = L.latLng(e.popup._latlng.lat, e.popup._latlng.lng)
       self.buttons = e.popup._contentNode.getElementsByClassName('my-custom-button')
       for (let i = 0; i < self.buttons.length; i++) {
@@ -101,6 +104,10 @@ export default {
         a.onclick = function () {
           self.map2 = JSON.parse(JSON.stringify(self.originalMap))
           document.getElementById('myCustomButton').remove()
+          // 模拟点击当前mark元素,一定要延时一会
+          setTimeout(() => {
+            self.currentMarkerElement.click()
+          })
         }
         allElements[allElements.length - 1].appendChild(a)
       }
