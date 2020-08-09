@@ -7,6 +7,7 @@ import VueLeaflet4 from '@/components/VueLeaflet4'
 import VueLeaflet5 from '@/components/VueLeaflet5'
 import VueLeaflet6 from '@/components/VueLeaflet6'
 import VueLeaflet7 from '@/components/VueLeaflet7'
+import VueLeaflet8 from '@/components/VueLeaflet8'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/VueLeaflet7',
       name: 'VueLeaflet7',
       component: VueLeaflet7
+    },
+    {
+      path: '/VueLeaflet8',
+      name: 'VueLeaflet8',
+      component: VueLeaflet8
     }
   ]
 })
