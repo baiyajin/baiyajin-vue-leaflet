@@ -31,7 +31,8 @@ export default {
         {name: 'DEMO4', path: '/VueLeaflet4', id: 4}, // 双击添加标记，点击标记显示默认3个地图，再点击地图会覆盖掉原来的地图
         {name: '图片', path: '/VueLeaflet5', id: 5}, // 不使用经纬度，而是使用图片的坐标系
         {name: '多边形', path: '/VueLeaflet6', id: 6}, // 多边形
-        {name: 'DEMO7', path: '/VueLeaflet7', id: 7} // 多边形
+        {name: 'DEMO7', path: '/VueLeaflet7', id: 7}, // 有平铺
+        {name: 'DEMO8', path: '/VueLeaflet8', id: 8} // 无平铺
       ]
     }
   },
