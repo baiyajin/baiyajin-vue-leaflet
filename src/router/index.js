@@ -9,6 +9,12 @@ import VueLeaflet6 from '@/components/VueLeaflet6'
 import VueLeaflet7 from '@/components/VueLeaflet7'
 import VueLeaflet8 from '@/components/VueLeaflet8'
 
+/* 处理Avoided redundant navigation to current location */
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(Router)
 
 export default new Router({
