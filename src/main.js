@@ -7,6 +7,8 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'leaflet/dist/leaflet.css'
+import '@/assets/js/rastercoords'
+import '@/assets/js/geojson'
 import L from 'leaflet'
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({

@@ -1,28 +1,51 @@
 <template>
   <div class="vue-leaflet">
-    <l-map id="map" class="l-map" :zoom="map2.zoom" ref="map" :maxZoom="3" :minZoom="0">
+    <el-button @click="drawPolygon" type="primary" circle class="el_button el-icon-edit" ></el-button>
+    <l-map id="map" class="l-map" :zoom="map2.zoom" ref="map2" :maxZoom="3" :minZoom="0">
+      <l-polygon :lat-lngs="polygon.latlngs" :color="polygon.color"></l-polygon>
       <!--设置地图不平铺:noWrap="true"-->
       <l-tile-layer :noWrap="true" :url="map2.url"></l-tile-layer>
       <l-marker v-for="(item, index) in map2.markers" :key="index" :lat-lng="item.marker">
         <l-popup :content="item.text"></l-popup>
       </l-marker>
     </l-map>
+    <!--全局覆盖-->
+    <l-map class="l-map child_map_div" v-if="dialogVisible" :zoom="map3.zoom" ref="map3">
+      <l-tile-layer :noWrap="true" :url="map3.url"></l-tile-layer>
+    </l-map>
   </div>
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
+import { LMap, LTileLayer, LMarker, LPopup, LPolygon } from 'vue2-leaflet'
 import L from 'leaflet'
 export default {
   name: 'VueLeaflet',
   components: {
     LMap,
+    LPolygon,
     LTileLayer,
     LMarker,
     LPopup
   },
   data () {
     return {
+      dialogVisible: false,
+      map3: {
+        title: '',
+        zoom: 1,
+        url: '',
+        marker: '',
+        markers: [],
+        text: ''
+      },
+      originalUrl: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
+      currentZoom: 2,
+      img: [3831, 3101], // 图片显示时的宽高
+      polygon: {
+        latlngs: [],
+        color: 'green'
+      },
       buttons: [],
       currentIndex: 0,
       currentMarker: '',
@@ -38,36 +61,16 @@ export default {
       }
     }
   },
-  created () {
-    // 初始化地图默认标记
-    this.map2.markers.push(this.getJson(L.latLng(25.085540595994082, 102.73151814937593)))
-  },
   mounted () {
-    let self = this
-    // 双击添加标记
-    self.$refs.map.mapObject.on('click', function (e) {
-      // 单击不添加
-    }).on('dblclick', function (e) {
-      // 双击才添加
-      self.map2.markers.push(self.getJson(L.latLng(e.latlng.lat, e.latlng.lng)))
-    })
-    // 点击标记
-    self.$refs.map.mapObject.on('popupopen', function (e) {
-      // 获取当前mark标记元素
-      self.currentMarkerElement = e.sourceTarget._panes.markerPane.lastChild
-      self.currentCenter = self.currentMarker = L.latLng(e.popup._latlng.lat, e.popup._latlng.lng)
-      self.buttons = e.popup._contentNode.getElementsByClassName('my-custom-button')
-      for (let i = 0; i < self.buttons.length; i++) {
-        self.buttons[i].onclick = function () {
-          // 保存原来的地图
-          self.originalMap = JSON.parse(JSON.stringify(self.map2))
-          self.setMapParams(i)
-          self.addReturnButton()
-        }
-      }
-    })
+    this.setPosition('map2')
+    this.setPosition('map3')
   },
   methods: {
+    setPosition (ref) {
+      // 设置位置
+      var rc = new L.RasterCoords(this.$refs[ref].mapObject, this.img)
+      this.$refs[ref].mapObject.setView(rc.unproject([this.img[0] / 2, this.img[1] / 2]), this.currentZoom)
+    },
     getJson (marker) {
       return {
         marker: marker,
@@ -79,15 +82,55 @@ export default {
     },
     setMapParams (index) {
       this.currentIndex = index
-      this.map2.zoom = 1
-      this.map2.center = this.currentCenter
-      this.map2.markers = [{
+      this.map3.zoom = 1
+      this.map3.markers = [{
         marker: this.currentMarker,
         text: `<div class="title">${index + 1} 楼地图</div>`
       }]
-      this.map2.text = `<div class="title">我是 ${this.buttons[index].innerHTML}</div>`
-      this.map2.title = `${this.buttons[index].innerHTML}`
-      this.map2.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
+      this.map3.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
+    },
+    drawPolygon () {
+      this.$notify.success({
+        message: '开始绘制多边形',
+        position: 'bottom-right'
+      })
+      // 设置鼠标样式
+      document.body.style.cursor = 'crosshair'
+      let points = []
+      const polygon = new L.Polygon(points)
+      let map = this.$refs.map2.mapObject
+      map.addLayer(polygon)
+      // 按下
+      map.on('mousedown', e => {
+        points.push([e.latlng.lat, e.latlng.lng])
+        // 移动
+        map.on('mousemove', event => {
+          polygon.setLatLngs([...points, [event.latlng.lat, event.latlng.lng]])
+        })
+      })
+      let self = this
+      map.on('dblclick', e => {
+        if (points.length) {
+          this.$notify.success({
+            message: '退出绘制',
+            position: 'bottom-right'
+          })
+          document.body.style.cursor = 'grab'
+          map.off('mousemove')
+          map.off('mousedown')
+          points = []
+          // 获取刚刚绘制的多边形
+          let paths = document.getElementsByClassName('leaflet-interactive')
+          // 设置点击事件
+          for (let i = 0; i < paths.length; i++) {
+            paths[i].onclick = function () {
+              self.setMapParams(i)
+              self.dialogVisible = true
+              self.addReturnButton()
+            }
+          }
+        }
+      })
     },
     addReturnButton () {
       let self = this
@@ -102,7 +145,7 @@ export default {
         a.setAttribute('aria-label', '返回')
         a.innerHTML = '«'
         a.onclick = function () {
-          self.map2 = JSON.parse(JSON.stringify(self.originalMap))
+          self.dialogVisible = false
           document.getElementById('myCustomButton').remove()
           // 模拟点击当前mark元素,一定要延时一会
           setTimeout(() => {

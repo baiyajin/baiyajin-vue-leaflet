@@ -1,6 +1,7 @@
 <template>
   <div class="vue-leaflet">
-    <div id="map"></div>
+    <div v-show="isShowing" id="map2" ref="map2"></div>
+    <div v-show="!isShowing" id="map" ref="map"></div>
   </div>
 </template>
 <script>
@@ -15,12 +16,16 @@ export default {
   // },
   data () {
     return {
+      isShowing: false,
+      map: null,
+      buttons: [],
+      currentUrl: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
+      originalUrl: '',
       minZoom: 0,
       maxZoom: 5,
       currentZoom: 2,
       img: [3831, 3101], // 图片显示时的宽高
-      buttons: [],
-      currentIndex: 0,
+      currentF: 1,
       currentMarker: '',
       currentMarkerElement: null,
       currentCenter: '',
@@ -35,37 +40,46 @@ export default {
     }
   },
   created () {
-    // 初始化地图默认标记
-    // this.map2.markers.push(this.getJson(L.latLng(25.085540595994082, 102.73151814937593)))
   },
   mounted () {
     this.init('map')
-    /* let self = this
-    // 双击添加标记
-    self.$refs.map.mapObject.on('click', function (e) {
-      // 单击不添加
-    }).on('dblclick', function (e) {
-      // 双击才添加
-      self.map2.markers.push(self.getJson(L.latLng(e.latlng.lat, e.latlng.lng)))
-    })
-    // 点击标记
-    self.$refs.map.mapObject.on('popupopen', function (e) {
-      // 获取当前mark标记元素
-      self.currentMarkerElement = e.sourceTarget._panes.markerPane.lastChild
-      self.currentCenter = self.currentMarker = L.latLng(e.popup._latlng.lat, e.popup._latlng.lng)
-      self.buttons = e.popup._contentNode.getElementsByClassName('my-custom-button')
-      for (let i = 0; i < self.buttons.length; i++) {
-        self.buttons[i].onclick = function () {
-          // 保存原来的地图
-          self.originalMap = JSON.parse(JSON.stringify(self.map2))
-          self.setMapParams(i)
-          self.addReturnButton()
-        }
-      }
-    }) */
   },
   methods: {
     init (mapid) {
+      // create the map
+      this.map = L.map(mapid, {minZoom: this.minZoom, maxZoom: this.maxZoom})
+
+      // assign map and image dimensions
+      var rc = new L.RasterCoords(this.map, this.img)
+
+      // set the view on a marker ...  [3831 / 2, 3101 / 2] 定位一加载就显示的位置
+      this.map.setView(rc.unproject([3831 / 2, 3101 / 2]), this.currentZoom)
+
+      // add layer control object
+      L.control.layers({}, {
+        'Polygon': this.layerPolygon(this.map, rc).bindPopup(`<br><button class="my-custom-button">1楼</button>`) // 添加多边形
+        // 'Countries': this.layerCountries(map, rc), // 添加国家的点
+        // 'Bounds': this.layerBounds(map, rc, this.img), // 添加标记，边界标记
+        // 'Info': this.layerGeo(map, rc),
+        // 'Circles': this.layerCircles(map, rc) // 添加圆圈
+      }).addTo(this.map)
+
+      let self = this
+      this.map.on('popupopen', function (e) {
+        self.buttons = e.popup._contentNode.getElementsByClassName('my-custom-button')
+        for (let i = 0; i < self.buttons.length; i++) {
+          self.buttons[i].onclick = function () {
+            self.setMapParams()
+            self.addReturnButton()
+          }
+        }
+      })
+
+      L.tileLayer(this.currentUrl, {
+        noWrap: true // 设置地图不平铺
+      }).addTo(this.map)
+    },
+    init2 (mapid) {
       // create the map
       var map = L.map(mapid, {minZoom: this.minZoom, maxZoom: this.maxZoom})
 
@@ -75,16 +89,7 @@ export default {
       // set the view on a marker ...  [3831 / 2, 3101 / 2] 定位一加载就显示的位置
       map.setView(rc.unproject([3831 / 2, 3101 / 2]), this.currentZoom)
 
-      // add layer control object
-      L.control.layers({}, {
-        'Polygon': this.layerPolygon(map, rc), // 添加多边形
-        'Countries': this.layerCountries(map, rc), // 添加国家的点
-        'Bounds': this.layerBounds(map, rc, this.img), // 添加标记，边界标记
-        'Info': this.layerGeo(map, rc),
-        'Circles': this.layerCircles(map, rc) // 添加圆圈
-      }).addTo(map)
-
-      L.tileLayer('http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png', {
+      L.tileLayer(this.currentUrl, {
         noWrap: true // 设置地图不平铺
       }).addTo(map)
     },
@@ -181,29 +186,29 @@ export default {
     // 添加圆圈
     layerCircles (map, rc) {
       /*
-      // using circle may cause displaying a ellipse at the edges of the image
-      // radius is painful to adjust - simply don't use
-      const circle = L.circle(rc.unproject([200, 1000]), { radius: 1e6 })
-      */
+        // using circle may cause displaying a ellipse at the edges of the image
+        // radius is painful to adjust - simply don't use
+        const circle = L.circle(rc.unproject([200, 1000]), { radius: 1e6 })
+        */
 
       /*
-      // drawing a circle with a polyline
-      // Not so nice because of the visible steps
-      function circlePoints ([x, y], r, steps = 360) {
-        var p = []
-        for (var i = 0; i < steps; i++) {
-          p.push(rc.unproject([
-            (x + r * Math.cos(2 * Math.PI * i / steps)),
-            (y + r * Math.sin(2 * Math.PI * i / steps))
-          ]))
+        // drawing a circle with a polyline
+        // Not so nice because of the visible steps
+        function circlePoints ([x, y], r, steps = 360) {
+          var p = []
+          for (var i = 0; i < steps; i++) {
+            p.push(rc.unproject([
+              (x + r * Math.cos(2 * Math.PI * i / steps)),
+              (y + r * Math.sin(2 * Math.PI * i / steps))
+            ]))
+          }
+          return p
         }
-        return p
-      }
-      const polyline = L.polygon([circlePoints([200, 200], 200)], {
-        fillColor: '#3388ff',
-        color: '#fb0000'
-      })
-      */
+        const polyline = L.polygon([circlePoints([200, 200], 200)], {
+          fillColor: '#3388ff',
+          color: '#fb0000'
+        })
+        */
 
       // Custom marker prototype - credits to Arkensor
       L.CircleMarkerScaling = L.CircleMarker.extend({
@@ -236,17 +241,11 @@ export default {
             `<br><button class="my-custom-button">地图三</button>`
       }
     },
-    setMapParams (index) {
-      this.currentIndex = index
-      this.map2.zoom = 1
-      this.map2.center = this.currentCenter
-      this.map2.markers = [{
-        marker: this.currentMarker,
-        text: `<div class="title">${index + 1} 楼地图</div>`
-      }]
-      this.map2.text = `<div class="title">我是 ${this.buttons[index].innerHTML}</div>`
-      this.map2.title = `${this.buttons[index].innerHTML}`
-      this.map2.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
+    setMapParams () {
+      this.isShowing = true
+      this.originalUrl = this.currentUrl + ''
+      this.currentUrl = `http://192.168.1.115/tiles/${this.currentF}F/{z}/{x}/{y}.png`
+      this.init2('map2')
     },
     addReturnButton () {
       let self = this
@@ -261,12 +260,9 @@ export default {
         a.setAttribute('aria-label', '返回')
         a.innerHTML = '«'
         a.onclick = function () {
-          self.map2 = JSON.parse(JSON.stringify(self.originalMap))
+          this.isShowing = false
+          self.currentUrl = self.originalUrl + ''
           document.getElementById('myCustomButton').remove()
-          // 模拟点击当前mark元素,一定要延时一会
-          setTimeout(() => {
-            self.currentMarkerElement.click()
-          }, 100)
         }
         allElements[allElements.length - 1].appendChild(a)
       }

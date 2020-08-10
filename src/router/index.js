@@ -8,6 +8,7 @@ import VueLeaflet5 from '@/components/VueLeaflet5'
 import VueLeaflet6 from '@/components/VueLeaflet6'
 import VueLeaflet7 from '@/components/VueLeaflet7'
 import VueLeaflet8 from '@/components/VueLeaflet8'
+import VueLeaflet9 from '@/components/VueLeaflet9'
 
 /* 处理Avoided redundant navigation to current location */
 const originalPush = Router.prototype.push
@@ -58,6 +59,11 @@ export default new Router({
       path: '/VueLeaflet8',
       name: 'VueLeaflet8',
       component: VueLeaflet8
+    },
+    {
+      path: '/VueLeaflet9',
+      name: 'VueLeaflet9',
+      component: VueLeaflet9
     }
   ]
 })
