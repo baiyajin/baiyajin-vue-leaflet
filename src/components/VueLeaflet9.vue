@@ -1,7 +1,7 @@
 <template>
   <div class="vue-leaflet">
     <el-button @click="drawPolygon" type="primary" circle class="el_button el-icon-edit" ></el-button>
-    <l-map id="map" class="l-map" :zoom="map2.zoom" ref="map2" :maxZoom="3" :minZoom="0">
+    <l-map id="map" @update:zoom="updateZoom" class="l-map" :zoom="map2.zoom" ref="map2" :maxZoom="3" :minZoom="0">
       <l-polygon :lat-lngs="polygon.latlngs" :color="polygon.color"></l-polygon>
       <!--设置地图不平铺:noWrap="true"-->
       <l-tile-layer :noWrap="true" :url="map2.url"></l-tile-layer>
@@ -10,7 +10,7 @@
       </l-marker>
     </l-map>
     <!--全局覆盖-->
-    <l-map class="l-map child_map_div" v-if="dialogVisible" :zoom="map3.zoom" ref="map3">
+    <l-map class="l-map child_map_div" v-if="dialogVisible" :zoom="map3.zoom" ref="map3" :maxZoom="4" :minZoom="1">
       <l-tile-layer :noWrap="true" :url="map3.url"></l-tile-layer>
     </l-map>
   </div>
@@ -39,7 +39,6 @@ export default {
         markers: [],
         text: ''
       },
-      originalUrl: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
       currentZoom: 2,
       img: [3831, 3101], // 图片显示时的宽高
       polygon: {
@@ -50,8 +49,6 @@ export default {
       currentIndex: 0,
       currentMarker: '',
       currentMarkerElement: null,
-      currentCenter: '',
-      originalMap: {},
       map2: {
         zoomControl: false,
         attributionControl: false,
@@ -66,6 +63,9 @@ export default {
     this.setPosition('map3')
   },
   methods: {
+    updateZoom (n, s) {
+      console.log(n, s)
+    },
     setPosition (ref) {
       // 设置位置
       var rc = new L.RasterCoords(this.$refs[ref].mapObject, this.img)
