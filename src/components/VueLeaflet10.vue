@@ -16,7 +16,7 @@
       <!--地图-->
       <l-tile-layer :noWrap="true" :url="map2.url"></l-tile-layer>
       <!--标记分组-->
-      <v-marker-cluster>
+      <v-marker-cluster ref="clusterRef">
         <!--标记-->
         <l-marker v-for="(item, index) in map2.markers" :key="'marker' + index" :lat-lng="item.marker" :icon="item.icon">
           <l-popup :content="item.text"></l-popup>
@@ -30,15 +30,19 @@
       <l-polygon v-for="(item2, index2) in map3.polygons" :key="'map3polygon' + index2" @update="polygonUpdate" @ready="polygonReady($event, index2)" :lat-lngs="map3.polygon.latlngs" :color="map3.polygon.color"></l-polygon>
       <!--地图-->
       <l-tile-layer :noWrap="true" :url="map3.url"></l-tile-layer>
-      <!--标记-->
-      <l-marker v-for="(item, index) in map3.markers" :key="'map3marker' + index" :lat-lng="item.marker" :icon="item.icon">
-        <l-popup :content="item.text"></l-popup>
-      </l-marker>
+      <!--标记分组-->
+      <v-marker-cluster ref="clusterRef3">
+        <!--标记-->
+        <l-marker v-for="(item, index) in map3.markers" :key="'map3marker' + index" :lat-lng="item.marker" :icon="item.icon">
+          <l-popup :content="item.text"></l-popup>
+        </l-marker>
+      </v-marker-cluster>
     </l-map>
   </div>
 </template>
 
 <script>
+// 刷新集群 this.$refs.clusterRef.mapObject.refreshClusters()
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
 import { LMap, LTileLayer, LMarker, LPopup, LPolygon } from 'vue2-leaflet'
 import myCustomPopup from '@/components/my-custom-popup'
@@ -267,6 +271,326 @@ export default {
           }),
           marker: L.latLng(3.425691524418062, -57.91992187500001),
           text: `<div class="title">20</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.54060382149495, -152.92968750000003),
+          text: `<div class="title">21</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.58610635020881, -147.30468750000003),
+          text: `<div class="title">22</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.58610635020881, -140.97656250000003),
+          text: `<div class="title">23</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.58610635020881, -133.59375000000003),
+          text: `<div class="title">24</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.44876405595812, -128.32031250000003),
+          text: `<div class="title">25</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.44876405595812, -123.04687500000001),
+          text: `<div class="title">26</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.49482361179574, -119.53125000000001),
+          text: `<div class="title">27</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.54060382149495, -55.54687500000001),
+          text: `<div class="title">28</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.26169873683153, -46.75781250000001),
+          text: `<div class="title">29</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.26169873683153, -35.15625000000001),
+          text: `<div class="title">30</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.40242347938855, -23.906250000000004),
+          text: `<div class="title">31</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.21421714106776, -20.742187500000004),
+          text: `<div class="title">32</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(80.64703474739618, -21.093750000000004),
+          text: `<div class="title">33</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(78.06198918665976, -18.984375000000004),
+          text: `<div class="title">34</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(75.23066741281573, -21.4453125),
+          text: `<div class="title">35</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(71.41317683396566, -21.4453125),
+          text: `<div class="title">36</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(67.7427590666639, -21.4453125),
+          text: `<div class="title">37</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(63.54855223203644, -20.742187500000004),
+          text: `<div class="title">38</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(51.6180165487737, -22.5),
+          text: `<div class="title">39</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(45.82879925192134, -22.148437500000004),
+          text: `<div class="title">40</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(43.068887774169625, -23.906250000000004),
+          text: `<div class="title">41</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(42.8115217450979, -38.3203125),
+          text: `<div class="title">42</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(42.8115217450979, -53.08593750000001),
+          text: `<div class="title">43</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(42.8115217450979, -60.46875000000001),
+          text: `<div class="title">44</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(43.068887774169625, -64.68750000000001),
+          text: `<div class="title">45</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(44.84029065139799, -110.39062500000001),
+          text: `<div class="title">46</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(44.59046718130883, -120.58593750000001),
+          text: `<div class="title">47</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(44.08758502824518, -132.89062500000003),
+          text: `<div class="title">48</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(44.84029065139799, -143.08593750000003),
+          text: `<div class="title">49</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(44.84029065139799, -150.11718750000003),
+          text: `<div class="title">50</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(45.583289756006316, -155.7421875),
+          text: `<div class="title">51</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(54.16243396806781, -155.39062500000003),
+          text: `<div class="title">52</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(61.77312286453146, -154.68750000000003),
+          text: `<div class="title">53</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(67.06743335108298, -153.98437500000003),
+          text: `<div class="title">54</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(71.63599288330609, -154.68750000000003),
+          text: `<div class="title">55</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(75.14077784070429, -153.63281250000003),
+          text: `<div class="title">56</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(78.1344931829381, -152.57812500000003),
+          text: `<div class="title">57</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(79.68718415450823, -152.92968750000003),
+          text: `<div class="title">58</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(81.4139332828511, -154.33593750000003),
+          text: `<div class="title">59</div>`
+        },
+        {
+          icon: L.icon({
+            iconUrl: require('./../assets/img/camera.png'),
+            iconSize: [38, 95]
+          }),
+          marker: L.latLng(82.30889251821554, -153.63281250000003),
+          text: `<div class="title">60</div>`
         }
       ],
       // 楼层1的摄像头标记
@@ -456,11 +780,11 @@ export default {
     var rc2 = new L.RasterCoords(this.$refs.map2.mapObject, this.img)
     this.$refs.map2.mapObject.setView(rc2.unproject([this.img[0] / 2, this.img[1] / 2]), 1)
     // 双击添加标记
-    // let a = ''
+    let a = ''
     this.$refs.map2.mapObject.on('click', function (e) {
       // 单击不添加
-      // a += e.latlng.lat + ', ' + e.latlng.lng + '\n'
-      // console.log(a)
+      a += e.latlng.lat + ', ' + e.latlng.lng + '\n'
+      console.log(a)
     }).on('dblclick', function (e) {
     })
   },
