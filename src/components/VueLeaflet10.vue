@@ -26,6 +26,8 @@
 
     <!--点击跳转到的地图-->
     <l-map v-if="showMap3" @update:center="updateCenter" @update:zoom="updateZoom" id="map3" class="l-map child_map_div" :zoom="map3.zoom" ref="map3" :maxZoom="map3.maxZoom" :minZoom="map3.minZoom" :center="map3.center">
+      <!--返回-->
+      <a v-if="isSHowButton" @click="clickReturn" class="leaflet-control-zoom-out" id="myCustomButton" title="返回" role="button" aria-label="返回">«</a>
       <!--多边形-->
       <l-polygon v-for="(item2, index2) in map3.polygons" :key="'map3polygon' + index2" @update="polygonUpdate" @ready="polygonReady($event, index2)" :lat-lngs="map3.polygon.latlngs" :color="map3.polygon.color"></l-polygon>
       <!--地图-->
@@ -60,6 +62,7 @@ export default {
   },
   data () {
     return {
+      isSHowButton: false,
       currentPolygonIndex: 0,
       myPopup: {
         title: '1栋楼层',
@@ -70,7 +73,9 @@ export default {
       img: [3831, 3101], // 图片显示时的宽高
       originalMap: null,
       showMap3: false,
-      map3: {},
+      map3: {
+        zoom: 1
+      },
       map2: {
         center: [0, 0],
         zoom: 1,
@@ -780,11 +785,11 @@ export default {
     var rc2 = new L.RasterCoords(this.$refs.map2.mapObject, this.img)
     this.$refs.map2.mapObject.setView(rc2.unproject([this.img[0] / 2, this.img[1] / 2]), 1)
     // 双击添加标记
-    let a = ''
+    // let a = ''
     this.$refs.map2.mapObject.on('click', function (e) {
       // 单击不添加
-      a += e.latlng.lat + ', ' + e.latlng.lng + '\n'
-      console.log(a)
+      // a += e.latlng.lat + ', ' + e.latlng.lng + '\n'
+      // console.log(a)
     }).on('dblclick', function (e) {
     })
   },
@@ -826,13 +831,16 @@ export default {
       this.map3.maxZoom = 4
       this.map3.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
       this.showMap3 = true
-      this.addReturnButton()
+      this.isSHowButton = true
+      // this.addReturnButton()
     },
     addReturnButton () {
       let self = this
       let myCustomButton = document.getElementById('myCustomButton')
       if (!myCustomButton) {
         let allElements = document.getElementsByClassName('leaflet-control-zoom leaflet-bar leaflet-control')
+        console.log(allElements[0])
+        console.log(allElements[2])
         let a = document.createElement('a')
         a.setAttribute('class', 'leaflet-control-zoom-out')
         a.setAttribute('id', 'myCustomButton')
@@ -854,6 +862,13 @@ export default {
         allElements[allElements.length - 1].appendChild(a)
       }
     },
+    clickReturn () {
+      this.map2 = JSON.parse(JSON.stringify(this.originalMap))
+      this.map2.markers = this.markers
+      this.map3 = []
+      this.showMap3 = false
+      this.isSHowButton = false
+    },
     // 模拟点击元素
     clickElement (index) {
       let paths = document.getElementsByClassName('leaflet-interactive')
@@ -864,6 +879,30 @@ export default {
 </script>
 
 <style lang="less" rel="stylesheet/scss" scoped>
+  #myCustomButton{
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom: none;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    display: block;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    font: bold 18px 'Lucida Console', Monaco, monospace;
+    text-indent: 1px;
+    position: absolute;
+    top: 62px;
+    left: 10px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    z-index: 99999999;
+    line-height: 26px;
+  }
   .vue-leaflet{
     top: 0;
     left: 0;
@@ -876,7 +915,7 @@ export default {
       position:absolute;
     }
     .child_map_div{
-      z-index: 999;
+      z-index: 999999;
       background: white;
     }
     /deep/.leaflet-popup-content{
