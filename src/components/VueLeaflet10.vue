@@ -1,15 +1,27 @@
 <template>
   <div class="vue-leaflet">
     <my-custom-popup @executeFun="executeFun" ref="myCustomPopup" :buttons="myPopup.buttons" :title="myPopup.title" :transformX="myPopup.x" :transformY="myPopup.y"></my-custom-popup>
-    <l-map @update:center="updateCenter" @update:zoom="updateZoom" id="map2" class="l-map" :zoom="map2.zoom" ref="map2" :maxZoom="map2.maxZoom" :minZoom="map2.minZoom" :center="map2.center">
+    <l-map
+      @update:center="updateCenter"
+      @update:zoom="updateZoom"
+      id="map2"
+      class="l-map"
+      :zoom="map2.zoom"
+      ref="map2"
+      :maxZoom="map2.maxZoom"
+      :minZoom="map2.minZoom"
+      :center="map2.center">
       <!--多边形-->
       <l-polygon v-for="(item2, index2) in map2.polygons" :key="'polygon' + index2" @update="polygonUpdate" @ready="polygonReady($event, index2)" :lat-lngs="item2.polygon.latlngs" :color="item2.polygon.color"></l-polygon>
       <!--地图-->
       <l-tile-layer :noWrap="true" :url="map2.url"></l-tile-layer>
-      <!--标记-->
-      <l-marker v-for="(item, index) in map2.markers" :key="'marker' + index" :lat-lng="item.marker" :icon="item.icon">
-        <l-popup :content="item.text"></l-popup>
-      </l-marker>
+      <!--标记分组-->
+      <v-marker-cluster>
+        <!--标记-->
+        <l-marker v-for="(item, index) in map2.markers" :key="'marker' + index" :lat-lng="item.marker" :icon="item.icon">
+          <l-popup :content="item.text"></l-popup>
+        </l-marker>
+      </v-marker-cluster>
     </l-map>
 
     <!--点击跳转到的地图-->
@@ -27,12 +39,14 @@
 </template>
 
 <script>
+import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
 import { LMap, LTileLayer, LMarker, LPopup, LPolygon } from 'vue2-leaflet'
 import myCustomPopup from '@/components/my-custom-popup'
 import L from 'leaflet'
 export default {
   name: 'VueLeaflet',
   components: {
+    'v-marker-cluster': Vue2LeafletMarkerCluster,
     myCustomPopup,
     LMap,
     LPolygon,
@@ -56,7 +70,7 @@ export default {
       map2: {
         center: [0, 0],
         zoom: 1,
-        maxZoom: 5,
+        maxZoom: 6,
         minZoom: 0,
         url: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
         markers: [],
@@ -439,8 +453,8 @@ export default {
   },
   mounted () {
     // 设置位置
-    // var rc2 = new L.RasterCoords(this.$refs.map2.mapObject, this.img)
-    // this.$refs.map2.mapObject.setView(rc2.unproject([this.img[0] / 2, this.img[1] / 2]), 1)
+    var rc2 = new L.RasterCoords(this.$refs.map2.mapObject, this.img)
+    this.$refs.map2.mapObject.setView(rc2.unproject([this.img[0] / 2, this.img[1] / 2]), 1)
     // 双击添加标记
     // let a = ''
     this.$refs.map2.mapObject.on('click', function (e) {
@@ -451,11 +465,13 @@ export default {
     })
   },
   methods: {
-    updateCenter (b) {
+    updateCenter (center) {
       this.$refs.myCustomPopup.closePopup()
+      this.map2.center = center
     },
-    updateZoom (b) {
+    updateZoom (zoom) {
       // console.log(b)
+      this.map2.zoom = zoom
     },
     updateBounds (b) {
       console.log(b)
