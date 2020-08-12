@@ -4,6 +4,7 @@
     <l-map
       @update:center="updateCenter"
       @update:zoom="updateZoom"
+      @ready="doSomethingOnReady"
       id="map2"
       class="l-map"
       :zoom="map2.zoom"
@@ -15,6 +16,10 @@
       <l-polygon v-for="(item2, index2) in map2.polygons" :key="'polygon' + index2" @update="polygonUpdate" @ready="polygonReady($event, index2)" :lat-lngs="item2.polygon.latlngs" :color="item2.polygon.color"></l-polygon>
       <!--地图-->
       <l-tile-layer :noWrap="true" :url="map2.url"></l-tile-layer>
+      <!--控制层，点线面绘制-->
+      <l-control position="topleft">
+        <control-marker :map="map" @perspective="perspective"></control-marker>
+      </l-control>
       <!--标记分组-->
       <v-marker-cluster ref="clusterRef">
         <!--标记-->
@@ -44,17 +49,20 @@
 </template>
 
 <script>
+import ControlMarker from '@/components/ControlMarker'
 // 刷新集群 this.$refs.clusterRef.mapObject.refreshClusters()
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
-import { LMap, LTileLayer, LMarker, LPopup, LPolygon } from 'vue2-leaflet'
+import { LMap, LTileLayer, LMarker, LPopup, LPolygon, LControl } from 'vue2-leaflet'
 import myCustomPopup from '@/components/my-custom-popup'
 import L from 'leaflet'
 export default {
   name: 'VueLeaflet',
   components: {
     'v-marker-cluster': Vue2LeafletMarkerCluster,
+    'control-marker': ControlMarker,
     myCustomPopup,
     LMap,
+    LControl,
     LPolygon,
     LTileLayer,
     LMarker,
@@ -73,6 +81,7 @@ export default {
       img: [3831, 3101], // 图片显示时的宽高
       originalMap: null,
       showMap3: false,
+      map: null,
       map3: {
         zoom: 1
       },
@@ -781,12 +790,13 @@ export default {
     this.map2.markers = this.markers
   },
   mounted () {
+    this.map = this.$refs.map2.mapObject
     // 设置位置
-    var rc2 = new L.RasterCoords(this.$refs.map2.mapObject, this.img)
-    this.$refs.map2.mapObject.setView(rc2.unproject([this.img[0] / 2, this.img[1] / 2]), 1)
+    var rc2 = new L.RasterCoords(this.map, this.img)
+    this.map.setView(rc2.unproject([this.img[0] / 2, this.img[1] / 2]), 1)
     // 双击添加标记
     // let a = ''
-    this.$refs.map2.mapObject.on('click', function (e) {
+    this.map.on('click', function (e) {
       // 单击不添加
       // a += e.latlng.lat + ', ' + e.latlng.lng + '\n'
       // console.log(a)
@@ -794,6 +804,12 @@ export default {
     })
   },
   methods: {
+    perspective (center) {
+      this.map2.center = center
+    },
+    doSomethingOnReady () {
+      this.map = this.$refs.map2.mapObject
+    },
     updateCenter (center) {
       this.$refs.myCustomPopup.closePopup()
       this.map2.center = center
@@ -879,6 +895,7 @@ export default {
 </script>
 
 <style lang="less" rel="stylesheet/scss" scoped>
+  /*返回按钮*/
   #myCustomButton{
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -897,15 +914,11 @@ export default {
     font: bold 18px 'Lucida Console', Monaco, monospace;
     text-indent: 1px;
     position: absolute;
-    top: 110px;
-    /*top: 62px;*/
+    top: 62px;
     left: 10px;
     box-shadow: 0 1px 5px rgba(0,0,0,0.65);
     z-index: 99999999;
     line-height: 26px;
-    &:hover {
-      background-color: #f4f4f4;
-    }
   }
   .vue-leaflet{
     top: 0;

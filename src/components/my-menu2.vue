@@ -7,13 +7,13 @@
         :key="index"
         @click="jupmTo(item.id, item.path)"
       >
+        <div class="status" v-if="item.id === clickId"></div>
         <div
           class="title"
           :class="item.id === clickId ? 'clickColor' : 'noClickColor'"
         >
           {{ item.name }}
         </div>
-        <div class="status" v-if="item.id === clickId"></div>
       </div>
     </div>
   </div>
@@ -25,17 +25,20 @@ export default {
   data () {
     return {
       menuList: [
-        {name: '标记', path: '/VueLeaflet', id: 1}, // 双击添加标记，点击标记显示默认6个地图
-        {name: '标记打点', path: '/VueLeaflet2', id: 2}, // 双击添加标记，点击标记没有地图
-        {name: '标记菜单', path: '/VueLeaflet3', id: 3}, // 双击添加标记，点击标记显示默认3个地图，地图是从后台接口获取的，再点击地图会遮住原来地图
-        {name: '跳转', path: '/VueLeaflet4', id: 4}, // 双击添加标记，点击标记显示默认3个地图，再点击地图会覆盖掉原来的地图
-        {name: '图片', path: '/VueLeaflet5', id: 5}, // 不使用经纬度，而是使用图片的坐标系
-        {name: '多边形', path: '/VueLeaflet6', id: 6}, // 多边形
-        {name: '无平铺', path: '/VueLeaflet7', id: 7}, // 有平铺
-        {name: '点/标记/多边形', path: '/VueLeaflet8', id: 8}, //  无平铺
-        {name: '简单绘制', path: '/VueLeaflet9', id: 9}, //  无平铺
-        {name: '最终效果', path: '/VueLeaflet10', id: 10}, //  无平铺
-        {name: '点线面的绘制', path: '/VueLeaflet11', id: 11} //  无平铺
+        {name: 'choropleth', path: '/choropleth', id: 'choropleth'},
+        {name: 'editablecirclemarker', path: '/editablecirclemarker', id: 'editablecirclemarker'},
+        {name: 'geosearch', path: '/geosearch', id: 'geosearch'},
+        {name: 'markercluster', path: '/markercluster', id: 'markercluster'},
+        {name: 'locatecontrol', path: '/locatecontrol', id: 'locatecontrol'},
+        {name: 'movingmarker', path: '/movingmarker', id: 'movingmarker'},
+        {name: 'pathTransform', path: '/pathTransform', id: 'pathTransform'},
+        {name: 'polylineMeasure', path: '/polylineMeasure', id: 'polylineMeasure'},
+        {name: 'polylinedecorator', path: '/polylinedecorator', id: 'polylinedecorator'},
+        {name: 'rotatedmarker', path: '/rotatedmarker', id: 'rotatedmarker'},
+        {name: 'tracksymbol', path: '/tracksymbol', id: 'tracksymbol'},
+        {name: 'minimap', path: '/minimap', id: 'minimap'},
+        {name: 'hotline', path: '/hotline', id: 'hotline'},
+        {name: 'axesgrid', path: '/axesgrid', id: 'axesgrid'}
       ]
     }
   },
@@ -64,7 +67,7 @@ export default {
   z-index: 999;
   position: absolute;
   background: white;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
   height: 50px;

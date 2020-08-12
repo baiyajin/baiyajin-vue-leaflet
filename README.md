@@ -29,4 +29,5 @@ npm run e2e
 # run all tests
 npm test
 ```
+### npm i --save ant-design-vue
 

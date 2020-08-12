@@ -10,6 +10,23 @@ import VueLeaflet7 from '@/components/VueLeaflet7'
 import VueLeaflet8 from '@/components/VueLeaflet8'
 import VueLeaflet9 from '@/components/VueLeaflet9'
 import VueLeaflet10 from '@/components/VueLeaflet10'
+import VueLeaflet11 from '@/components/VueLeaflet11'
+// 例子
+import choropleth from '@/components/examples/choropleth'
+import axesgrid from '@/components/examples/axesgrid'
+import editablecirclemarker from '@/components/examples/editablecirclemarker'
+import geosearch from '@/components/examples/geosearch'
+import googlemutant from '@/components/examples/googlemutant'
+import markercluster from '@/components/examples/markercluster'
+import locatecontrol from '@/components/examples/locatecontrol'
+import movingmarker from '@/components/examples/movingmarker'
+import pathTransform from '@/components/examples/pathTransform'
+import polylineMeasure from '@/components/examples/polylineMeasure'
+import polylinedecorator from '@/components/examples/polylinedecorator'
+import rotatedmarker from '@/components/examples/rotatedmarker'
+import tracksymbol from '@/components/examples/tracksymbol'
+import minimap from '@/components/examples/minimap'
+import hotline from '@/components/examples/hotline2'
 
 /* 处理Avoided redundant navigation to current location */
 const originalPush = Router.prototype.push
@@ -70,6 +87,86 @@ export default new Router({
       path: '/VueLeaflet10',
       name: 'VueLeaflet10',
       component: VueLeaflet10
+    },
+    {
+      path: '/VueLeaflet11',
+      name: 'VueLeaflet11',
+      component: VueLeaflet11
+    },
+    {
+      path: '/choropleth',
+      name: 'choropleth',
+      component: choropleth
+    },
+    {
+      path: '/editablecirclemarker',
+      name: 'editablecirclemarker',
+      component: editablecirclemarker
+    },
+    {
+      path: '/geosearch',
+      name: 'geosearch',
+      component: geosearch
+    },
+    {
+      path: '/googlemutant',
+      name: 'googlemutant',
+      component: googlemutant
+    },
+    {
+      path: '/markercluster',
+      name: 'markercluster',
+      component: markercluster
+    },
+    {
+      path: '/pathTransform',
+      name: 'pathTransform',
+      component: pathTransform
+    },
+    {
+      path: '/locatecontrol',
+      name: 'locatecontrol',
+      component: locatecontrol
+    },
+    {
+      path: '/movingmarker',
+      name: 'movingmarker',
+      component: movingmarker
+    },
+    {
+      path: '/polylineMeasure',
+      name: 'polylineMeasure',
+      component: polylineMeasure
+    },
+    {
+      path: '/polylinedecorator',
+      name: 'polylinedecorator',
+      component: polylinedecorator
+    },
+    {
+      path: '/rotatedmarker',
+      name: 'rotatedmarker',
+      component: rotatedmarker
+    },
+    {
+      path: '/hotline',
+      name: 'hotline',
+      component: hotline
+    },
+    {
+      path: '/tracksymbol',
+      name: 'tracksymbol',
+      component: tracksymbol
+    },
+    {
+      path: '/minimap',
+      name: 'minimap',
+      component: minimap
+    },
+    {
+      path: '/axesgrid',
+      name: 'axesgrid',
+      component: axesgrid
     }
   ]
 })

@@ -6,6 +6,8 @@ import store from './store'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
 import 'leaflet/dist/leaflet.css'
 // 聚合标记分组
 import 'leaflet.markercluster/dist/MarkerCluster.css'
@@ -21,6 +23,7 @@ L.Icon.Default.mergeOptions({
 })
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.use(Antd)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

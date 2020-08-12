@@ -1,15 +1,18 @@
 <template>
   <div id="app">
     <my-menu></my-menu>
+    <my-menu2></my-menu2>
     <router-view/>
   </div>
 </template>
 
 <script>
 import MyMenu from './components/my-menu'
+import MyMenu2 from './components/my-menu2'
 export default {
   components: {
-    MyMenu
+    MyMenu,
+    MyMenu2
   },
   name: 'App'
 }
@@ -105,4 +108,43 @@ button{
 }
 }
 }
+</style>
+<style lang="less" rel="stylesheet/scss">
+  /*放大缩小按钮*/
+  .leaflet-top.leaflet-left{
+    top: 50px;
+  }
+  body {
+    height: auto !important;
+  }
+  /*控制层样式*/
+  /deep/.control-panel .search .ant-input-search-enter-button .ant-input-group-addon .ant-input-search-button{
+    font-size: 18px;
+    color: #5e5656;
+    background-color: #fff;
+    border-color: #d9d9d9;
+  }
+  /deep/.control-panel .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+    padding: 12px 14px;
+    word-break: break-all;
+  }
+  /deep/.leaflet-container .leaflet-control-attribution, .leaflet-container .leaflet-control-scale{
+    display: none;
+  }
+  /deep/.leaflet-marker-markerTooltip{
+    white-space: nowrap;
+    float: left;
+    margin-left: 15px;
+    margin-top: -5px;
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    box-shadow: 2px 2px 5px #888888;
+    color: #000000;
+    padding: 2px 5px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;
+    cursor: default;
+  }
 </style>
