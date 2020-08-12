@@ -90,7 +90,7 @@ export default {
   }
   .menu {
     cursor: pointer;
-    width: 70%;
+    width: 100%;
     display: flex;
     .menu_name {
       width: 100%;

@@ -914,7 +914,7 @@ export default {
     font: bold 18px 'Lucida Console', Monaco, monospace;
     text-indent: 1px;
     position: absolute;
-    top: 62px;
+    top: 110px;
     left: 10px;
     box-shadow: 0 1px 5px rgba(0,0,0,0.65);
     z-index: 99999999;

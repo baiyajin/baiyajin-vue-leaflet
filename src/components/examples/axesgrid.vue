@@ -41,7 +41,7 @@ export default {
     return {
       crs: L.CRS.Simple,
       initialLocation: L.latLng(0, 0),
-      initialZoom: 10,
+      initialZoom: 8,
       minZoom: 5,
       maxZoom: 13,
       imageUrl: require('./floorplan.png'),
