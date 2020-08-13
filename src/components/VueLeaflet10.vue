@@ -81,7 +81,7 @@ export default {
         zoom: 1,
         maxZoom: 6,
         minZoom: 0,
-        url: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
+        url: `http://${window.g.mapUrl}/tiles/ground/{z}/{x}/{y}.png`,
         markers: [],
         // 多边形
         polygons: [
@@ -829,7 +829,7 @@ export default {
       this.map3.markers = this[`markers${index + 1}`]
       this.map3.polygons = []
       this.map3.maxZoom = 4
-      this.map3.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
+      this.map3.url = `http://${window.g.mapUrl}/tiles/${index + 1}F/{z}/{x}/{y}.png`
       this.showMap3 = true
       this.isSHowButton = true
       // this.addReturnButton()

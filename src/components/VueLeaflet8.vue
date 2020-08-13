@@ -29,7 +29,7 @@ export default {
         zoomControl: false,
         attributionControl: false,
         zoom: 1,
-        url: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
+        url: `http://${window.g.mapUrl}/tiles/ground/{z}/{x}/{y}.png`,
         markers: []
       }
     }
@@ -84,7 +84,7 @@ export default {
         'Circles': this.layerCircles(map, rc) // 添加圆圈
       }).addTo(map)
 
-      L.tileLayer('http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png', {
+      L.tileLayer(`http://${window.g.mapUrl}/tiles/ground/{z}/{x}/{y}.png`, {
         noWrap: true // 设置地图不平铺
       }).addTo(map)
     },
@@ -246,7 +246,7 @@ export default {
       }]
       this.map2.text = `<div class="title">我是 ${this.buttons[index].innerHTML}</div>`
       this.map2.title = `${this.buttons[index].innerHTML}`
-      this.map2.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
+      this.map2.url = `http://${window.g.mapUrl}/tiles/${index + 1}F/{z}/{x}/{y}.png`
     },
     addReturnButton () {
       let self = this

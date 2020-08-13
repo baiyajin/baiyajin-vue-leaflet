@@ -47,7 +47,7 @@ export default {
       }
     },
     setMapParams (index) {
-      this.map2.url = 'http://192.168.1.115/tiles/' + index + 'F/0/0/0.png'
+      this.map2.url = `http://${window.g.mapUrl}/tiles/' + index + 'F/0/0/0.png`
       console.log(this.map2.url)
     },
     drawPolygon () {
@@ -105,7 +105,7 @@ export default {
         crs: L.CRS.Simple
       },
       dialogVisible: false,
-      url: 'http://192.168.1.115/tiles/ground/0/0/0.png',
+      url: `http://${window.g.mapUrl}/tiles/ground/0/0/0.png`,
       // [-400, -400] 位置
       // [400, 400] 大小
       bounds: [[-400, -400], [400, 400]],

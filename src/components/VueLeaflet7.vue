@@ -33,7 +33,7 @@ export default {
         zoomControl: false,
         attributionControl: false,
         zoom: 1,
-        url: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
+        url: `http://${window.g.mapUrl}/tiles/ground/{z}/{x}/{y}.png`,
         markers: []
       }
     }
@@ -87,7 +87,7 @@ export default {
       }]
       this.map2.text = `<div class="title">我是 ${this.buttons[index].innerHTML}</div>`
       this.map2.title = `${this.buttons[index].innerHTML}`
-      this.map2.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
+      this.map2.url = `http://${window.g.mapUrl}/tiles/${index + 1}F/{z}/{x}/{y}.png`
     },
     addReturnButton () {
       let self = this

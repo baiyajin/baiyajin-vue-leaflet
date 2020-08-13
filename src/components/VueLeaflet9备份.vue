@@ -19,7 +19,7 @@ export default {
       isShowing: false,
       map: null,
       buttons: [],
-      currentUrl: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
+      currentUrl: `http://${window.g.mapUrl}/tiles/ground/{z}/{x}/{y}.png`,
       originalUrl: '',
       minZoom: 0,
       maxZoom: 5,
@@ -34,7 +34,7 @@ export default {
         zoomControl: false,
         attributionControl: false,
         zoom: 1,
-        url: 'http://192.168.1.115/tiles/ground/{z}/{x}/{y}.png',
+        url: `http://${window.g.mapUrl}/tiles/ground/{z}/{x}/{y}.png`,
         markers: []
       }
     }
@@ -244,7 +244,7 @@ export default {
     setMapParams () {
       this.isShowing = true
       this.originalUrl = this.currentUrl + ''
-      this.currentUrl = `http://192.168.1.115/tiles/${this.currentF}F/{z}/{x}/{y}.png`
+      this.currentUrl = `http://${window.g.mapUrl}/tiles/${this.currentF}F/{z}/{x}/{y}.png`
       this.init2('map2')
     },
     addReturnButton () {

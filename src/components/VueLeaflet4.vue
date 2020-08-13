@@ -32,7 +32,7 @@ export default {
         zoom: 13,
         center: L.latLng(25.085540595994082, 102.73151814937593),
         url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-        // url: 'http://192.168.1.115/tiles/tiles/{z}/{x}/{y}.png',
+        // url: `http://${window.g.mapUrl}/tiles/tiles/{z}/{x}/{y}.png`,
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         markers: []
       }
@@ -87,7 +87,7 @@ export default {
       }]
       this.map2.text = `<div class="title">我是 ${this.buttons[index].innerHTML}</div>`
       this.map2.title = `${this.buttons[index].innerHTML}`
-      this.map2.url = `http://192.168.1.115/tiles/${index + 1}F/{z}/{x}/{y}.png`
+      this.map2.url = `http://${window.g.mapUrl}/tiles/${index + 1}F/{z}/{x}/{y}.png`
     },
     addReturnButton () {
       let self = this

@@ -110,6 +110,10 @@ button{
 }
 </style>
 <style lang="less" rel="stylesheet/scss">
+  /*修改标记弹出的内容层级*/
+  .leaflet-fade-anim .leaflet-map-pane .leaflet-popup{
+    z-index: 99999999;
+  }
   /*放大缩小按钮*/
   .leaflet-top.leaflet-left{
     top: 50px;
