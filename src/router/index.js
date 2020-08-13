@@ -12,21 +12,26 @@ import VueLeaflet9 from '@/components/VueLeaflet9'
 import VueLeaflet10 from '@/components/VueLeaflet10'
 import VueLeaflet11 from '@/components/VueLeaflet11'
 // 例子
+// import choropleth from '@/components/examples/choropleth'
 import choropleth from '@/components/examples/choropleth'
 import axesgrid from '@/components/examples/axesgrid'
 import editablecirclemarker from '@/components/examples/editablecirclemarker'
 import geosearch from '@/components/examples/geosearch'
 import googlemutant from '@/components/examples/googlemutant'
 import markercluster from '@/components/examples/markercluster'
-import locatecontrol from '@/components/examples/locatecontrol'
-import movingmarker from '@/components/examples/movingmarker'
+// 下面这个跟 markercluster 有冲突
+// import locatecontrol from '@/components/examples/locatecontrol'
+// 下面这个跟 markercluster 有冲突
+// import movingmarker from '@/components/examples/movingmarker'
 import pathTransform from '@/components/examples/pathTransform'
 import polylineMeasure from '@/components/examples/polylineMeasure'
-import polylinedecorator from '@/components/examples/polylinedecorator'
+// 下面这个跟 markercluster 有冲突
+// import polylinedecorator from '@/components/examples/polylinedecorator'
 import rotatedmarker from '@/components/examples/rotatedmarker'
 import tracksymbol from '@/components/examples/tracksymbol'
 import minimap from '@/components/examples/minimap'
-import hotline from '@/components/examples/hotline2'
+// 下面这个跟 markercluster 有冲突
+// import hotline from '@/components/examples/hotline2'
 
 /* 处理Avoided redundant navigation to current location */
 const originalPush = Router.prototype.push
@@ -35,7 +40,6 @@ Router.prototype.push = function push (location) {
 }
 
 Vue.use(Router)
-
 export default new Router({
   routes: [
     {
@@ -93,15 +97,20 @@ export default new Router({
       name: 'VueLeaflet11',
       component: VueLeaflet11
     },
-    {
-      path: '/choropleth',
-      name: 'choropleth',
-      component: choropleth
-    },
+    // {
+    //   path: '/choropleth',
+    //   name: 'choropleth',
+    //   component: choropleth
+    // },
     {
       path: '/editablecirclemarker',
       name: 'editablecirclemarker',
       component: editablecirclemarker
+    },
+    {
+      path: '/choropleth',
+      name: 'choropleth',
+      component: choropleth
     },
     {
       path: '/geosearch',
@@ -123,36 +132,31 @@ export default new Router({
       name: 'pathTransform',
       component: pathTransform
     },
-    {
-      path: '/locatecontrol',
-      name: 'locatecontrol',
-      component: locatecontrol
-    },
-    {
-      path: '/movingmarker',
-      name: 'movingmarker',
-      component: movingmarker
-    },
+    // {
+    //   path: '/locatecontrol',
+    //   name: 'locatecontrol',
+    //   component: locatecontrol
+    // },
     {
       path: '/polylineMeasure',
       name: 'polylineMeasure',
       component: polylineMeasure
     },
-    {
-      path: '/polylinedecorator',
-      name: 'polylinedecorator',
-      component: polylinedecorator
-    },
+    // {
+    //   path: '/polylinedecorator',
+    //   name: 'polylinedecorator',
+    //   component: polylinedecorator
+    // },
     {
       path: '/rotatedmarker',
       name: 'rotatedmarker',
       component: rotatedmarker
     },
-    {
-      path: '/hotline',
-      name: 'hotline',
-      component: hotline
-    },
+    // {
+    //   path: '/hotline',
+    //   name: 'hotline',
+    //   component: hotline
+    // },
     {
       path: '/tracksymbol',
       name: 'tracksymbol',

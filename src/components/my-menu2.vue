@@ -29,15 +29,15 @@ export default {
         {name: 'editablecirclemarker', path: '/editablecirclemarker', id: 'editablecirclemarker'},
         {name: 'geosearch', path: '/geosearch', id: 'geosearch'},
         {name: 'markercluster', path: '/markercluster', id: 'markercluster'},
-        {name: 'locatecontrol', path: '/locatecontrol', id: 'locatecontrol'},
-        {name: 'movingmarker', path: '/movingmarker', id: 'movingmarker'},
+        // {name: 'locatecontrol', path: '/locatecontrol', id: 'locatecontrol'},
+        // {name: 'movingmarker', path: '/movingmarker', id: 'movingmarker'},
         {name: 'pathTransform', path: '/pathTransform', id: 'pathTransform'},
         {name: 'polylineMeasure', path: '/polylineMeasure', id: 'polylineMeasure'},
-        {name: 'polylinedecorator', path: '/polylinedecorator', id: 'polylinedecorator'},
+        // {name: 'polylinedecorator', path: '/polylinedecorator', id: 'polylinedecorator'},
         {name: 'rotatedmarker', path: '/rotatedmarker', id: 'rotatedmarker'},
         {name: 'tracksymbol', path: '/tracksymbol', id: 'tracksymbol'},
         {name: 'minimap', path: '/minimap', id: 'minimap'},
-        {name: 'hotline', path: '/hotline', id: 'hotline'},
+        // {name: 'hotline', path: '/hotline', id: 'hotline'},
         {name: 'axesgrid', path: '/axesgrid', id: 'axesgrid'}
       ]
     }

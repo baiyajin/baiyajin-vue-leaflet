@@ -50,9 +50,9 @@
         </a-table>
       </div>
     </div>
-    <div class="add-tip" ref="tipModal" v-show="tipPanel">
+    <div :style="{left: tipStyle.left + 'px', top: tipStyle.top + 'px'}" class="add-tip" ref="tipModal" v-show="tipPanel">
       <div class="title">备注</div>
-      <a-input placeholder="请输入备注" allowClear v-model="tip" />
+      <a-input placeholder="请输入备注" allowClear v-model="tip"/>
       <a-button class="ok" @click="tipOk">确定</a-button>
       <a-button @click="tipCancel">取消</a-button>
     </div>
@@ -74,7 +74,11 @@ export default {
   },
   data () {
     return {
-      tip: '暂无备注',
+      tipStyle: {
+        left: 0,
+        top: 0
+      },
+      tip: '',
       controlPanel: true,
       tipPanel: false,
       markerShow: true,
@@ -143,6 +147,8 @@ export default {
     },
     // 绘制点符号添加到图层中
     addClickMarker: function (e) {
+      this.tipStyle.left = e.containerPoint.x + 10
+      this.tipStyle.top = e.containerPoint.y / 2
       const clickLocation = [e.latlng.lat, e.latlng.lng]
       this.cancleMarkerListener()
       const pointMarker = L.marker(clickLocation).addTo(this.markersLayer)
@@ -458,21 +464,19 @@ export default {
 </script>
 <style lang="less" scoped>
   .add-tip{
-    width: 160px;
-    height: 108px;
+    width: 164px;
+    height: 112px;
     padding: 5px 10px;
     background-color: #fff;
     border-radius: 4px;
     position: absolute;
-    top: 0px;
-    right: 320px;
-    & .title{
+    .title{
       width: 100%;
       color: #000;
       font-size: 18px;
       text-align: center;
     }
-    & .ok{
+    .ok{
       margin: 5px 12px 0 0;
     }
   }
@@ -512,5 +516,10 @@ export default {
       background-color: #fff;
       border-color: #d9d9d9;
     }
+  }
+  /deep/.leaflet-popup-content{
+    left: -19px !important;
+    position: relative !important;
+    text-align: center !important;
   }
 </style>
