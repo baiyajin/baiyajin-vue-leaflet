@@ -64,7 +64,7 @@ export default {
 
 <style lang="less" rel="stylesheet/scss" scoped>
 .nav {
-  z-index: 999;
+  z-index: 1006;
   position: absolute;
   background: white;
   bottom: 0;
