@@ -51,7 +51,7 @@
       </div>
     </div>
     <div :style="{left: tipStyle.left + 'px', top: tipStyle.top + 'px'}" class="add-tip" ref="tipModal" v-show="tipPanel">
-      <div class="title">备注</div>
+      <div class="title">{{'请输入 ' + typeName + ' 的备注'}}</div>
       <a-input placeholder="请输入备注" allowClear v-model="tip"/>
       <a-button class="ok" @click="tipOk">确定</a-button>
       <a-button @click="tipCancel">取消</a-button>
@@ -74,6 +74,7 @@ export default {
   },
   data () {
     return {
+      typeName: '',
       tipStyle: {
         left: 0,
         top: 0
@@ -132,6 +133,7 @@ export default {
   methods: {
     // 绘制点
     pointMarker (e) {
+      this.typeName = '点'
       this.cancleMarkerListener()
 
       this.clickFunction = this.addClickMarker
@@ -163,6 +165,7 @@ export default {
     },
     // 添加线符号
     lineMarker (e) {
+      this.typeName = '线'
       this.cancleMarkerListener()
 
       this.poly_points = []
@@ -221,6 +224,7 @@ export default {
     },
     // 为绘制区域添加绘制事件
     polygonMarker (e) {
+      this.typeName = '面'
       this.cancleMarkerListener()
 
       this.poly_points = []// 区域点
@@ -284,7 +288,6 @@ export default {
       this.moveIcon.setLatLng(e.latlng)
       this.moveIcon.setZIndexOffset(this.marker_zindex + 20)
     },
-
     // 添加绘制符号的备注信息
     addTip (markerAdd, tipLocation) {
       this.tipPanel = true
@@ -521,5 +524,6 @@ export default {
     left: -19px !important;
     position: relative !important;
     text-align: center !important;
+    z-index: 9999 !important;
   }
 </style>
